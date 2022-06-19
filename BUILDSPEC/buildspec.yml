@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      - apt-get update
+      - apt-get install -y jq
+      - export SONAR_SCANNER_VERSION=4.7.0.2747
+      - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+      - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+      - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+      - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+      - export SONAR_SCANNER_OPTS="-server"
+  pre_build:
+    commands:
+      - sonar-scanner -Dsonar.organization=brunosantos88 -Dsonar.projectKey=SITEWEB -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=***************
+      - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=SITEWEB > analysis.json
+      - cat analysis.json
+  build:
+    commands:
+      - echo Building Project
+      - echo Finished Building
+    paths:
+      - "node_modules/**/*"

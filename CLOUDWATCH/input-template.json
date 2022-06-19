@@ -1,0 +1,5 @@
+Build normal
+"Build '<build-id>' for build project '<project-name>' has reached the build status of '<build-status>'."
+
+Build completa
+"Build '<build-id>' for build project '<project-name>' has completed the build phase of '<completed-phase>' with a status of '<completed-phase-status>'."
